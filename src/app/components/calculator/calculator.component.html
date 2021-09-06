@@ -1,0 +1,82 @@
+<!--<div class="container">-->
+<!--  <form class="add-form" (ngSubmit)="onSubmit()">-->
+<!--    <div class="form-control">-->
+<!--      <label for="weight">Weight</label>-->
+<!--      <input-->
+<!--        type="number"-->
+<!--        name="weight"-->
+<!--        [(ngModel)]= 'weight'-->
+<!--        id="weight"-->
+<!--        placeholder="Your weight"-->
+<!--      />-->
+<!--    </div>-->
+<!--    <div class="form-control">-->
+<!--      <label for="height">Height</label>-->
+<!--      <input-->
+<!--        type="number"-->
+<!--        name="height"-->
+<!--        [(ngModel)]="height"-->
+<!--        id="height"-->
+<!--        placeholder="Your height"-->
+<!--      />-->
+<!--    </div>-->
+<!--    <div class="form-control form-control-check">-->
+<!--      <label for="age">Age</label>-->
+<!--      <input-->
+<!--        type="number"-->
+<!--        name="age"-->
+<!--        [(ngModel)]="age"-->
+<!--        id="age"-->
+<!--      />-->
+<!--    </div>-->
+<!--    <input type="submit" value="Calculate" class="btn btn-block" />-->
+<!--  </form>-->
+
+
+<!--</div>-->
+
+<div class="container">
+
+  <div class="col" [ngStyle]="{marginBottom: '50px'}">
+    <h2 class="title">What is your BMI ratio?</h2>
+    <p class="font-italic mb-0">{{description2}}</p>
+  </div>
+
+  <div class="col-md-6" id="calculator">
+    <form (ngSubmit)="onSubmit()" >
+      <div class="mb-3">
+        <label for="weight" class="form-label" >Weight</label>
+        <div class="input-group" >
+          <input type="number" class="form-control" name="weight" id="weight" placeholder="Your weight" [(ngModel)]="weight">
+          <div class="input-group-text">{{weightMetric}}</div>
+        </div>
+      </div>
+      <div class="mb-3">
+        <label for="height" class="form-label" >Height</label>
+        <div class="input-group" >
+          <input type="number" class="form-control" name="height" id="height" placeholder="Your height" [(ngModel)]="height">
+          <div class="input-group-text">{{heightMetric}}</div>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Calculate</button>
+      <input type="button" class="btn" (click)="reset()"  value="Reset">
+    </form>
+
+
+
+    <!--        result-->
+    <div *ngIf="calculate" id="result">
+      <hr class="solid">
+      <h1>Result</h1>
+    </div>
+  </div>
+
+
+  <app-calculator-description></app-calculator-description>
+
+
+</div>
+
+
+
