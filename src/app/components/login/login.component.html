@@ -1,0 +1,17 @@
+<!--<input type="button" (click)="loginWithGoogle()" />-->
+
+<button (click)="loginWithGoogle()">
+  Google
+</button>
+
+
+
+  <div *ngIf="socialAuthService.authState | async as socialUser">
+    <p>Hello, {{socialUser.name}}!</p>
+    <p>Your email: {{socialUser.email}}</p>
+    <p>Auth token: {{socialUser.authToken}}</p>
+    <button (click)="logout()">Logout</button>
+  </div>
+
+
+
