@@ -1,5 +1,5 @@
 .title{
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .subtitle{
@@ -7,6 +7,16 @@
 }
 
 .description{
-  margin-top: 20px;
-  margin-bottom: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.content{
+  margin-bottom: 40px;
+  margin-top: 30px;
+}
+
+.mat-expansion-panel , .mat-expansion-panel-header , .mat-expansion-panel-header-title{
+  background-color: white;
+  color: black;
 }

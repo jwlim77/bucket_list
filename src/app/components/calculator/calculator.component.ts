@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {FormControl, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-calculator',
@@ -7,16 +8,27 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CalculatorComponent implements OnInit {
 
-  description1 :string= 'Find out with this body mass index calculator.';
-  description2 : string = 'This BMI calculator helps you determine your body mass index (BMI) is a calculation made by comparing a person\'s weight and height to estimate if an individual\'s weight falls within a healthy range. Though it does not actually measure the percentage of body fat, it is a useful tool in providing a rough guide for desired body weight based on your height.'
+  weight = new FormControl('' , [
+    Validators.required,
+    Validators.min(1),
+    Validators.max(1000),
+    Validators.pattern("^[0-9]+$")
+  ]);
+  height = new FormControl('' ,[
+    Validators.required,
+    Validators.min(1),
+    Validators.max(1000),
+    Validators.pattern("^[0-9]+$")
+  ]);
 
-  weight = null;
-  height = null;
-  age : number = 0;
   calculate : boolean =false ;
+  result : string = '';
+  resultLabel : string ='';
+  resultColor : string ='';
 
   weightMetric : string = 1+1==2 ? 'KG' : 'Pounds';
   heightMetric : string = 1+1==2 ? 'Centimeters' : 'Inches';
+  tab : boolean = false;
 
   constructor() { }
 
@@ -25,14 +37,45 @@ export class CalculatorComponent implements OnInit {
 
   onSubmit(){
     //calculate bmi
-    this.calculate=true;
-    console.log("weight : "+this.weight);
+    if(this.weight.valid && this.height.valid){
+      this.calculate=true;
+      this.result = this.calculateBmi(this.weight.value , this.height.value/100);
+      this.resultLabel = this.labelResult(parseInt(this.result))[0];
+      this.resultColor = this.labelResult(parseInt(this.result))[1];
+      this.tab= true;
+    }else {
+      alert("Please fill in the values !")
+    }
   }
 
   reset(){
     this.calculate=false;
-    this.weight=null;
-    this.height=null;
+    this.weight.reset();
+    this.height.reset();
+    this.tab = false;
+  }
+
+  calculateBmi(weight: number, height: number) {
+    return (weight / (height * height)).toFixed(2);
+  }
+
+  labelResult(bmi : number) : string[]{
+    switch (true){
+      case (bmi < 18.5):
+        return ['Underweight','orange']
+        break;
+      case ( 18.5 <= bmi && bmi <= 24.9):
+        return ['Healthy weight','green']
+        break;
+      case ( 25 <= bmi && bmi <= 29):
+        return ['Overweight','orange']
+        break;
+      case ( bmi >= 30):
+        return ['Obesity','red']
+        break;
+      default :
+        return []
+    }
   }
 
 }
