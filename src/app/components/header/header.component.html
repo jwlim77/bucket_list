@@ -2,11 +2,8 @@
 <!--    <h1>{{headerTitle}}</h1>-->
 <!--</div>-->
 <header>
-  <div style="background: url(https://picsum.photos/200/300)" class="jumbotron bg-cover text-white">
-    <div class="container py-5 text-left">
-      <h1 class="display-4 font-weight-bold text-center">{{headerTitle}}</h1>
-      <p class="font-italic mb-0 text-center">{{description1}}</p> <br>
-    </div>
+  <div [ngStyle]="{flex : '1'}">
+    <app-login></app-login>
   </div>
 </header>
 

@@ -1,0 +1,59 @@
+import {Injectable} from '@angular/core';
+import {HttpClient} from "@angular/common/http";
+import {JWTTokenService} from "./jwtToken.service";
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ApiService {
+
+  //base URL
+  private baseUrl = 'http://127.0.0.1:8000/';
+
+  constructor(private http : HttpClient , private jwt : JWTTokenService) { }
+
+  private validatedGet(url : string) : any{
+    try{
+      this.jwt.decodeToken()
+      return this.http.get<any>(url)
+    }catch (error){
+      alert("Invalid Token. Please refresh page.")
+      throw Error("Invalid Token")
+    }
+  }
+
+  private validatedPost(url : string , body : any){
+    try{
+      this.jwt.decodeToken()
+      return this.http.post<any>(url , body)
+    }catch (error){
+      alert("Invalid Token. Please refresh page.")
+      throw Error("Invalid Token")
+    }
+  }
+
+  getSecure(): any {
+    const url = this.baseUrl+'api/secure/';
+    return this.validatedGet(url)
+  }
+
+  checkServer(): any {
+    const url = this.baseUrl+'api/checkserver/';
+    return this.http.get(url)
+  }
+
+  getRecord() : any{
+    const url = this.baseUrl+'api/records/';
+    return this.validatedGet(url)
+  }
+
+  saveRecord(body : any) : any{
+    const url = this.baseUrl+'api/records/';
+    return this.validatedPost(url , body)
+  }
+
+  deleteRecord(id : any) : any{
+    const url = this.baseUrl+'api/records/'+id+'/';
+    return this.http.delete(url)
+  }
+}

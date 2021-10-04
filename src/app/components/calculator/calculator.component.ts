@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, Validators} from "@angular/forms";
+import {ApiService} from "../../services/apiService.service";
+import {LocalStorageService} from "../../services/localStorage.service";
 
 @Component({
   selector: 'app-calculator',
@@ -30,12 +32,24 @@ export class CalculatorComponent implements OnInit {
   heightMetric : string = 1+1==2 ? 'Centimeters' : 'Inches';
   tab : boolean = false;
 
-  constructor() { }
+  isLoggedIn : boolean = false ;
+
+  constructor(private api : ApiService , private localStorage : LocalStorageService) { }
 
   ngOnInit(): void {
+    this.checkLogIn()
+  }
+
+  checkLogIn(){
+    if(this.localStorage.get("access_token")){
+      this.isLoggedIn = true
+    }else{
+      this.isLoggedIn = false
+    }
   }
 
   onSubmit(){
+    this.checkLogIn()
     //calculate bmi
     if(this.weight.valid && this.height.valid){
       this.calculate=true;
@@ -75,6 +89,23 @@ export class CalculatorComponent implements OnInit {
         break;
       default :
         return []
+    }
+  }
+
+  saveRecord(){
+    if(this.isLoggedIn){
+      if(confirm("Are you sure to add this record ?")) {
+        this.api.saveRecord({
+          "height": this.height.value,
+          "weight": this.weight.value,
+          "bmi": this.result,
+          "status": this.resultLabel
+        }).subscribe((res : any)=>{
+          alert("Record added")
+        })
+      }
+    }else {
+      alert("Please log in to save your record.")
     }
   }
 

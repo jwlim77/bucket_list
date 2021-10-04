@@ -1,4 +1,6 @@
 <div class="topBg">
+<!--  for testing -->
+  <app-login></app-login>
 
     <div style="background-image: url('../../../assets/wave-haikei.svg'); background-position: bottom" class="jumbotron bg-cover">
       <div class="container py-5 text-left text-white">
@@ -48,11 +50,23 @@
               <h1>Result</h1>
               <h2>{{result}} kg/m2</h2>
               <h6 [style.color]="resultColor">{{resultLabel}}</h6>
+              <div id="save-btn">
+                <button
+                  mat-raised-button
+                  color="accent"
+                  matTooltip="Please log in to save"
+                  matTooltipPosition="right"
+                  [matTooltipDisabled]="isLoggedIn"
+                  aria-label="Save button"
+                  (click)="saveRecord()">
+                  Save
+                </button>
+              </div>
+
             </div>
           </div>
         </div>
         <!-- end result-->
-
     </div>
     <!--end calculator-->
 
