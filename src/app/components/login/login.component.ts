@@ -48,9 +48,14 @@ export class LoginComponent implements OnInit {
             console.log("JWT from django : ")
             console.log(jwt)
             console.log("IsExpired : "+this.jwt.isTokenExpired())
+            this.refresh()
           })
       }
     ).catch((error)=>console.log("Login error : "+error.message));
+  }
+
+  refresh(): void {
+    window.location.reload();
   }
 
   logout():void{
@@ -61,6 +66,7 @@ export class LoginComponent implements OnInit {
         this.loggedIn = false
       })
       .finally(()=>{
+        this.refresh()
         console.log("logged out -- proceed to logout page")
       })
   }

@@ -1,23 +1,28 @@
 <!--<input type="button" (click)="loginWithGoogle()" />-->
-
-<button (click)="loginWithGoogle()">
-  Google
-</button>
-
-
-  <div *ngIf="loggedIn && user">
-    <p>Hello, {{user.first_name}}!</p>
-    <p>Your email: {{user.email}}</p>
-    <button (click)="logout()">Logout</button>
+<div class="d-flex flex-row">
+  <span class="lead" *ngIf="loggedIn&&user" style="margin-right: 10px ; align-self: center">Hello, {{user.first_name}}!</span>
+  <app-record *ngIf="loggedIn&&user"></app-record>
+  <div style="margin-right: 10px">
+    <button (click)="loggedIn? logout() : loginWithGoogle()" class="btn btn-primary" [ngClass]="loggedIn?  'btn btn-danger':'btn btn-primary' ">
+      {{loggedIn ? "Logout" : "Login with Google"}}
+    </button>
   </div>
+</div>
 
-<button (click)="checkServer()">
-  checkserver
-</button>
 
-<button (click)="enterSecureArea()">
-  SecureCheck
-</button>
 
-<app-record></app-record>
+<!--  <div *ngIf="loggedIn && user">-->
+<!--    <p>Your email: {{user.email}}</p>-->
+<!--  </div>-->
+<!--    <button (click)="logout()" class="btn btn-danger">Logout</button>-->
+
+<!--<button (click)="checkServer()">-->
+<!--  checkserver-->
+<!--</button>-->
+
+<!--<button (click)="enterSecureArea()">-->
+<!--  SecureCheck-->
+<!--</button>-->
+
+<!--<app-record></app-record>-->
 

@@ -1,11 +1,19 @@
-<!--<div class="header">-->
-<!--    <h1>{{headerTitle}}</h1>-->
-<!--</div>-->
-<header>
-  <div [ngStyle]="{flex : '1'}">
-    <app-login></app-login>
-  </div>
-</header>
+<div class="d-flex flex-row-reverse">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light flex-row-reverse">
+    <button class="navbar-toggler" type="button" style="margin-right: 10px" (click)="toggleNavbar()">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation"
+         [ngClass]="{ 'show': navbarOpen }">
+      <ul class="navbar-nav flex-row-reverse" style="margin-top: 10px">
+        <li class="nav-item">
+          <app-login></app-login>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</div>
+
 
 
 
