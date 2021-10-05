@@ -4,10 +4,15 @@ import { JWTTokenService } from './jwtToken.service';
 import { LocalStorageService } from './localStorage.service';
 import { catchError } from 'rxjs/operators';
 import {throwError} from "rxjs";
+import {LoginComponent} from "../components/login/login.component";
+import {ApiService} from "./apiService.service";
+
 @Injectable()
 export class UniversalAppInterceptor implements HttpInterceptor {
 
-  constructor( private jwtTokenService: JWTTokenService , private localStorage : LocalStorageService) { }
+  constructor( private jwtTokenService: JWTTokenService ,
+               private localStorage : LocalStorageService,
+               private api : ApiService) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
     const token = this.localStorage.get('access_token');
@@ -21,8 +26,11 @@ export class UniversalAppInterceptor implements HttpInterceptor {
     }
     return next.handle(req).pipe(
       catchError((error) => {
-        console.log('error is intercept')
         console.log(error.status)
+        if (error.status == 401){
+          console.log("Token expired")
+          this.api.forceLogOut()
+        }
         alert(error.status + "  " + error.error.detail)
         return throwError(error.message);
       }))

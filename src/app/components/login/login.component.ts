@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
       .then((res) => {
         console.log(res)
         console.log("Logged in with Google")
-        this.http.post<any>(`http://127.0.0.1:8000/api/auth/google/`, { access_token : res.authToken })
+        this.api.loginAPI({ access_token : res.authToken })
           .subscribe((jwt)=>{
             //save info and expires at local storage
             this.jwt.setToken(jwt.access_token)
@@ -59,6 +59,21 @@ export class LoginComponent implements OnInit {
   }
 
   logout():void{
+    if(confirm("Confirm log out ?")){
+      this.socialAuthService.signOut()
+        .catch((error)=>console.log(error))
+        .then(()=>{
+          this.localStorage.clear()
+          this.loggedIn = false
+        })
+        .finally(()=>{
+          this.refresh()
+          // console.log("logged out -- proceed to logout page")
+        })
+    }
+  }
+
+  forceLogOut(){
     this.socialAuthService.signOut()
       .catch((error)=>console.log(error))
       .then(()=>{
@@ -67,7 +82,7 @@ export class LoginComponent implements OnInit {
       })
       .finally(()=>{
         this.refresh()
-        console.log("logged out -- proceed to logout page")
+        // console.log("logged out -- proceed to logout page")
       })
   }
 
