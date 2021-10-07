@@ -1,6 +1,6 @@
 <!--<input type="button" (click)="loginWithGoogle()" />-->
 <div class="d-flex flex-row">
-  <span class="lead" *ngIf="loggedIn&&user" style="margin-right: 10px ; align-self: center">Hello, {{user.first_name}}!</span>
+  <span class="lead" *ngIf="loggedIn&&user" style="margin-right: 10px ; align-self: center ; color: white">Hello, {{user.first_name}}!</span>
   <app-record *ngIf="loggedIn&&user"></app-record>
   <div style="margin-right: 10px">
     <button (click)="loggedIn? logout() : loginWithGoogle()" class="btn btn-primary" [ngClass]="loggedIn?  'btn btn-danger':'btn btn-primary' ">

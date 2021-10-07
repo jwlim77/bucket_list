@@ -7,5 +7,37 @@ table {
 
 th.mat-header-cell {
   text-align: left;
-  max-width: 300px;
+  max-width: 100%;
+}
+
+.mat-column-index {
+  padding-right: 24px;
+  text-align: center;
+}
+
+.mat-column-weight ,  .mat-column-height {
+  width: 40px;
+  padding-right: 20px;
+  padding-left: 20px;
+  text-align: center;
+}
+
+.mat-column-bmi {
+  width: 40px;
+  padding-right: 30px;
+  padding-left: 40px;
+  text-align: left;
+}
+
+.mat-column-status{
+  padding-right: 24px;
+  padding-left: 10px;
+  text-align: left;
+}
+
+.mat-column-created_on{
+  padding-right: 24px;
+  padding-left: 100px;
+  text-align: left;
+  font-style: italic;
 }

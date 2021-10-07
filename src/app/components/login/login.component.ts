@@ -28,30 +28,34 @@ export class LoginComponent implements OnInit {
   }
 
   loginWithGoogle(): void {
-    this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID)
-      .then((res) => {
-        console.log(res)
-        console.log("Logged in with Google")
-        this.api.loginAPI({ access_token : res.authToken })
-          .subscribe((jwt)=>{
-            //save info and expires at local storage
-            this.jwt.setToken(jwt.access_token)
-            this.localStorage.set('access_token', jwt.access_token)
-            this.localStorage.set('user', JSON.stringify(jwt.user))
-            this.localStorage.set('expiresAt' , this.jwt.getExpiryTime())
+    try{
+      this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID)
+        .then((res) => {
+            // console.log(res)
+            console.log("Logged in with Google")
+            this.api.loginAPI({ access_token : res.authToken })
+              .subscribe((jwt)=>{
+                //save info and expires at local storage
+                this.jwt.setToken(jwt.access_token)
+                this.localStorage.set('access_token', jwt.access_token)
+                this.localStorage.set('user', JSON.stringify(jwt.user))
+                this.localStorage.set('expiresAt' , this.jwt.getExpiryTime())
 
-            this.user = jwt.user ;
-            this.loggedIn = true
-            // this.firstName = jwt.user.first_name
-            // this.email = jwt.user.email
+                this.user = jwt.user ;
+                this.loggedIn = true
 
-            console.log("JWT from django : ")
-            console.log(jwt)
-            console.log("IsExpired : "+this.jwt.isTokenExpired())
-            this.refresh()
-          })
-      }
-    ).catch((error)=>console.log("Login error : "+error.message));
+                // console.log("JWT from django : ")
+                // console.log(jwt)
+                // console.log("IsExpired : "+this.jwt.isTokenExpired())
+                this.refresh()
+              })
+          }
+        )
+
+    }catch (error){
+      console.log("Login error : "+error.details);
+    }
+
   }
 
   refresh(): void {
