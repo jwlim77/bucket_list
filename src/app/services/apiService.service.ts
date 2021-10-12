@@ -13,7 +13,8 @@ export class ApiService {
   // private baseUrl = 'http://127.0.0.1:8000/';
   // window.location.href
   //production URL
-  private baseUrl = 'http://django-env.eba-82dzqpnk.us-west-2.elasticbeanstalk.com/';
+  // private baseUrl = 'http://django-env.eba-82dzqpnk.us-west-2.elasticbeanstalk.com/';
+  private baseUrl = 'https://api.connectjinwei.codes/';
 
   constructor(private http : HttpClient ,
               private jwt : JWTTokenService ,
