@@ -9,11 +9,10 @@ import {LocalStorageService} from "./localStorage.service";
 })
 export class ApiService {
 
-  //base URL
+  //dev URL
   // private baseUrl = 'http://127.0.0.1:8000/';
-  // window.location.href
-  //production URL
-  // private baseUrl = 'http://django-env.eba-82dzqpnk.us-west-2.elasticbeanstalk.com/';
+  
+  //prod URL
   private baseUrl = 'https://api.connectjinwei.codes/';
 
   constructor(private http : HttpClient ,
