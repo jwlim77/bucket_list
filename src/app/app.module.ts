@@ -24,7 +24,7 @@ import {MatButtonModule} from "@angular/material/button";
 import {MatTooltipModule} from "@angular/material/tooltip";
 
 
-
+//added to .gitignore
 @NgModule({
   declarations: [
     AppComponent,
