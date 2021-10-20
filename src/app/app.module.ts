@@ -61,7 +61,7 @@ import {MatTooltipModule} from "@angular/material/tooltip";
         providers: [
           {
             id: GoogleLoginProvider.PROVIDER_ID,
-            provider: new GoogleLoginProvider('117069372805-c7ii9g2rqtheqdf0l505av0lkj3mulfb.apps.googleusercontent.com')
+            provider: new GoogleLoginProvider('you-login-provider-link')
           }
         ]
       }
