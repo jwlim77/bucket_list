@@ -111,8 +111,6 @@ export class RecordDialogComponent implements OnInit {
           console.log(res)
         }
       })
-      return true ;
     }
-    return false ;
   }
 }
