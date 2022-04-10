@@ -15,7 +15,6 @@ export class BucketComponent implements OnInit {
 
   calculate : boolean =false ;
   tab : boolean = false;
-  isLoggedIn : boolean = false ;
 
   bucketList = new FormControl('' , [
     Validators.required,
@@ -54,11 +53,9 @@ export class BucketComponent implements OnInit {
   }
 
   checkRecordButton(){
-    //calculate bmi
     if(this.email.valid){
       let respond = this.api.getSelfBucketList(this.email.value).subscribe((res : any)=>{
         if(res.length>0){
-          // this.selfData= res[0].bucketItems;
           this.openDialog(res[0].bucketItems , false)
         }else{
           this.openDialog(res , true)
