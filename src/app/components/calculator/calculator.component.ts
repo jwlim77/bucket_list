@@ -2,111 +2,160 @@ import { Component, OnInit } from '@angular/core';
 import {FormControl, Validators} from "@angular/forms";
 import {ApiService} from "../../services/apiService.service";
 import {LocalStorageService} from "../../services/localStorage.service";
+import {RecordDialogComponent} from "../record-dialog/record-dialog.component";
+import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-calculator',
   templateUrl: './calculator.component.html',
   styleUrls: ['./calculator.component.scss']
 })
+
 export class CalculatorComponent implements OnInit {
 
-  weight = new FormControl('' , [
-    Validators.required,
-    Validators.min(1),
-    Validators.max(1000),
-    Validators.pattern("^[0-9]+$")
-  ]);
-  height = new FormControl('' ,[
-    Validators.required,
-    Validators.min(1),
-    Validators.max(1000),
-    Validators.pattern("^[0-9]+$")
-  ]);
 
   calculate : boolean =false ;
   result : string = '';
   resultLabel : string ='';
   resultColor : string ='';
+  datas = [ {
+    "id" : 0,
+    "email": "",
+    "bucketItems": [{
+      "items": ""
+    }]
+  }]
 
-  weightMetric : string = 1+1==2 ? 'KG' : 'Pounds';
-  heightMetric : string = 1+1==2 ? 'Centimeters' : 'Inches';
+  // selfData = [
+  //       {
+  //         "id": "0",
+  //         "items": ""
+  //       }
+  // ]
+
   tab : boolean = false;
 
   isLoggedIn : boolean = false ;
 
-  constructor(private api : ApiService , private localStorage : LocalStorageService) { }
+  bucketList = new FormControl('' , [
+    Validators.required,
+    Validators.minLength(1),
+    Validators.maxLength(1000),
+    // Validators.pattern("^[0-9]+$")
+  ]);
+  email = new FormControl('' ,[
+    Validators.required,
+    Validators.minLength(1),
+    Validators.maxLength(1000),
+    // Validators.pattern("^[0-9]+$")
+  ]);
+
+
+  constructor(private api : ApiService , private localStorage : LocalStorageService , public dialog: MatDialog,) { }
 
   ngOnInit(): void {
     this.checkLogIn()
+    this.getAllRecords()
   }
 
   checkLogIn(){
     if(this.localStorage.get("access_token")){
       this.isLoggedIn = true
     }else{
-      this.isLoggedIn = false
+      this.isLoggedIn = true
     }
   }
 
+//add bucket list
   onSubmit(){
-    this.checkLogIn()
-    //calculate bmi
-    if(this.weight.valid && this.height.valid){
-      this.calculate=true;
-      this.result = this.calculateBmi(this.weight.value , this.height.value/100);
-      this.resultLabel = this.labelResult(parseInt(this.result))[0];
-      this.resultColor = this.labelResult(parseInt(this.result))[1];
-      this.tab= true;
+    if(this.bucketList.valid && this.email.valid){
+      alert("Email : " + this.email.value+ " Item : " + this.bucketList.value)
+
     }else {
       alert("Please fill in the values !")
     }
   }
 
+  checkRecordButton(){
+    //calculate bmi
+    if(this.email.valid){
+      this.api.getSelfBucketList(this.email.value).subscribe((res : any)=>{
+        if(res.length>0){
+          // this.selfData= res[0].bucketItems;
+          this.openDialog(res[0].bucketItems)
+        }else{
+          this.openDialog(res[0])
+        }
+      })
+
+      // this.tab= true;
+      // this.calculate = true;
+      // this.result = '123.00';
+
+    }else {
+      alert("Please fill in the values !")
+    }
+  }
+
+
+  private openDialog(records : string) {
+
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = records;
+
+    let dialogRef = this.dialog.open(RecordDialogComponent, dialogConfig);
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+
+
+  getAllRecords(){
+    this.api.getAllBucketList().subscribe((res : any)=>{
+      if(res.length > 0){
+        this.datas=res;
+      }
+
+    })
+  }
+
+
+//   this.api.getSelfBucketList({},{
+//     "email": this.email.value,
+//     "bucketList": this.bucketList.value,
+//     "bmi": this.result,
+//     "status": this.resultLabel
+//   }).subscribe((res : any)=>{
+//   alert("Record added")
+// })
+
   reset(){
     this.calculate=false;
-    this.weight.reset();
-    this.height.reset();
+    this.bucketList.reset();
+    this.email.reset();
     this.tab = false;
   }
 
-  calculateBmi(weight: number, height: number) {
-    return (weight / (height * height)).toFixed(2);
-  }
-
-  labelResult(bmi : number) : string[]{
-    switch (true){
-      case (bmi < 18.5):
-        return ['Underweight','orange']
-        break;
-      case ( 18.5 <= bmi && bmi <= 24.9):
-        return ['Healthy weight','green']
-        break;
-      case ( 25 <= bmi && bmi <= 29):
-        return ['Overweight','orange']
-        break;
-      case ( bmi >= 30):
-        return ['Obesity','red']
-        break;
-      default :
-        return []
-    }
-  }
-
-  saveRecord(){
-    if(this.isLoggedIn){
-      if(confirm("Are you sure to add this record ?")) {
-        this.api.saveRecord({
-          "height": this.height.value,
-          "weight": this.weight.value,
-          "bmi": this.result,
-          "status": this.resultLabel
-        }).subscribe((res : any)=>{
-          alert("Record added")
-        })
-      }
-    }else {
-      alert("Please log in to save your record.")
-    }
-  }
+  //
+  //
+  // saveRecord(){
+  //   if(this.isLoggedIn){
+  //     if(confirm("Are you sure to add this record ?")) {
+  //       this.api.saveRecord({
+  //         "email": this.email.value,
+  //         "bucketList": this.bucketList.value,
+  //         "bmi": this.result,
+  //         "status": this.resultLabel
+  //       }).subscribe((res : any)=>{
+  //         alert("Record added")
+  //       })
+  //     }
+  //   }else {
+  //     alert("Please log in to save your record.")
+  //   }
+  // }
 
 }

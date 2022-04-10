@@ -11,9 +11,9 @@ export class ApiService {
 
   //dev URL
   // private baseUrl = 'http://127.0.0.1:8000/';
-  
+
   //prod URL
-  private baseUrl = 'https://api.connectjinwei.codes/';
+  private baseUrl = 'http://onboardme-beta.celcom.com.my/api/';
 
   constructor(private http : HttpClient ,
               private jwt : JWTTokenService ,
@@ -82,5 +82,35 @@ export class ApiService {
 
   refresh(): void {
     window.location.reload();
+  }
+
+//  ----------------------
+  private get(url : string) : any{
+    try{
+      return this.http.get<any>(url)
+    }catch (error){
+      alert("Invalid. Please refresh page.")
+      throw Error("Invalid GET")
+    }
+  }
+
+  getSelfBucketList(email : string): any {
+    const url = this.baseUrl+'bucket-lists/'+email;
+    return this.get(url)
+  }
+
+  getAllBucketList(): any {
+    const url = this.baseUrl+'bucket-lists';
+    return this.http.get<any>(url)
+  }
+
+  updateSelfBucketList(email : string , body:any): any {
+    const url = this.baseUrl+'bucket-lists/'+email;
+    return this.http.put(url , body)
+  }
+
+  deleteSelfBucketList(email : string): any {
+    const url = this.baseUrl+'bucket-lists/'+email;
+    return this.http.delete(url)
   }
 }
