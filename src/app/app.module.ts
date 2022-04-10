@@ -7,12 +7,11 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
-import { CalculatorComponent } from './components/calculator/calculator.component';
+import { BucketComponent } from './components/bucket/bucket.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FooterComponent } from './components/footer/footer.component';
 import { SbuttonComponent } from './components/sbutton/sbutton.component';
 import {GoogleLoginProvider, SocialLoginModule} from "angularx-social-login";
-import {UniversalAppInterceptor} from "./services/UniversalAppInterceptor.interceptor";
 import {MatDialogModule} from "@angular/material/dialog";
 import { RecordDialogComponent } from './components/record-dialog/record-dialog.component';
 import {MatTableModule} from "@angular/material/table";
@@ -26,7 +25,7 @@ import {MatTooltipModule} from "@angular/material/tooltip";
   declarations: [
     AppComponent,
     HeaderComponent,
-    CalculatorComponent,
+    BucketComponent,
     FooterComponent,
     SbuttonComponent,
     RecordDialogComponent,
@@ -46,27 +45,6 @@ import {MatTooltipModule} from "@angular/material/tooltip";
         MatButtonModule,
         MatTooltipModule,
     ],
-  providers: [
-    //social auth
-    {
-      provide: 'SocialAuthServiceConfig',
-      useValue: {
-        // autoLogin: true, //keeps the user signed in
-        providers: [
-          {
-            id: GoogleLoginProvider.PROVIDER_ID,
-            provider: new GoogleLoginProvider('your-provider-id')
-          }
-        ]
-      }
-    },
-    //http interceptor
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: UniversalAppInterceptor,
-      multi: true
-    },
-  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

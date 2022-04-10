@@ -7,7 +7,6 @@
       </div>
     </div>
 
-    <!--    start calculator-->
     <div class=" d-flex flex-column align-items-center cal">
       <div class="col-md-6" id="calculator">
 
@@ -24,72 +23,14 @@
               <span *ngIf="email.errors">Please insert a valid email.</span>
             </div>
           </div>
-
-<!--          bucket list-->
-<!--          <div class="mb-3" >-->
-<!--            <label for="bucketList" class="form-label" >Add Bucket List</label>-->
-<!--            <div class="input-group" >-->
-<!--              <input type="text" min="0" class="form-control" name="bucketList" id="bucketList" placeholder="Item Name" [formControl]="bucketList" required>-->
-<!--            </div>-->
-<!--            &lt;!&ndash; form validation&ndash;&gt;-->
-<!--            <div *ngIf="bucketList.invalid && (bucketList.dirty || bucketList.touched)" class="badge bg-secondary">-->
-<!--              <span *ngIf="bucketList.errors">Please insert a valid item name.</span>-->
-<!--            </div>-->
-<!--          </div>-->
-
-
-<!--          <app-sbutton displayValue='Add Item' (clickEvent)="onSubmit()"></app-sbutton>-->
           <app-sbutton displayValue='Check record' (clickEvent)="checkRecordButton()"></app-sbutton>
           <input type="button" class="btn" (click)="reset()"  value="Reset">
         </form>
 
-        <!-- result-->
-        <div id="result" [class.active]="tab">
-          <div *ngIf="calculate">
-            <hr class="solid">
-            <div  id="resultContent" [class.active]="tab" >
-              <h1>Your Records</h1>
-
-
-              <table class="table table-striped table-bordered">
-                <thead>
-                <tr>
-                  <th>My Bucket List</th>
-                </tr>
-                </thead>
-                <tbody>
-<!--                <tr *ngFor="let data of selfData">-->
-<!--                  <td>{{data.items}}</td>-->
-<!--                </tr>-->
-                </tbody>
-              </table>
-
-
-<!--              <div id="save-btn">-->
-<!--                <button-->
-<!--                  mat-raised-button-->
-<!--                  color="accent"-->
-<!--                  matTooltip="Please log in to save"-->
-<!--                  matTooltipPosition="right"-->
-<!--                  [matTooltipDisabled]="isLoggedIn"-->
-<!--                  aria-label="Save button"-->
-<!--                  (click)="saveRecord()">-->
-<!--                  Save-->
-<!--                </button>-->
-              </div>
-
-            </div>
-          </div>
         </div>
-        <!-- end result-->
     </div>
-    <!--end calculator-->
 
-    </div>
-<!--</div>-->
-
-
-
+</div>
 
 
 <div class="container d-flex flex-column align-items-center">
@@ -119,11 +60,8 @@
         </tbody>
       </table>
     </div>
-
-
-
-<!--    <app-calculator-description></app-calculator-description>-->
   </div>
+
   <label>*Data from <a target="_blank" class="link-secondary text-decoration-none" href="http://onboardme-beta.celcom.com.my/api">http://onboardme-beta.celcom.com.my/api</a> </label>
 
 </div>

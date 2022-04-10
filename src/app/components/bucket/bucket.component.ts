@@ -1,41 +1,26 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, Validators} from "@angular/forms";
 import {ApiService} from "../../services/apiService.service";
-import {LocalStorageService} from "../../services/localStorage.service";
 import {RecordDialogComponent} from "../record-dialog/record-dialog.component";
 import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
 
 @Component({
-  selector: 'app-calculator',
-  templateUrl: './calculator.component.html',
-  styleUrls: ['./calculator.component.scss']
+  selector: 'app-bucket',
+  templateUrl: './bucket.component.html',
+  styleUrls: ['./bucket.component.scss']
 })
 
-export class CalculatorComponent implements OnInit {
+export class BucketComponent implements OnInit {
 
 
   calculate : boolean =false ;
-  result : string = '';
-  resultLabel : string ='';
-  resultColor : string ='';
-
-
-  // selfData = [
-  //       {
-  //         "id": "0",
-  //         "items": ""
-  //       }
-  // ]
-
   tab : boolean = false;
-
   isLoggedIn : boolean = false ;
 
   bucketList = new FormControl('' , [
     Validators.required,
     Validators.minLength(1),
     Validators.maxLength(1000),
-    // Validators.pattern("^[0-9]+$")
   ]);
   email = new FormControl('' ,[
     Validators.required,
@@ -52,19 +37,10 @@ export class CalculatorComponent implements OnInit {
     }]
   }]
 
-  constructor(private api : ApiService , private localStorage : LocalStorageService , public dialog: MatDialog,) { }
+  constructor(private api : ApiService , public dialog: MatDialog,) { }
 
   ngOnInit(): void {
-    this.checkLogIn()
     this.getAllRecords()
-  }
-
-  checkLogIn(){
-    if(this.localStorage.get("access_token")){
-      this.isLoggedIn = true
-    }else{
-      this.isLoggedIn = true
-    }
   }
 
 //add bucket list
@@ -89,10 +65,6 @@ export class CalculatorComponent implements OnInit {
         }
       })
 
-      // this.tab= true;
-      // this.calculate = true;
-      // this.result = '123.00';
-
     }else {
       alert("Please fill in the values !")
     }
@@ -100,7 +72,6 @@ export class CalculatorComponent implements OnInit {
 
 
   private openDialog(records : string , newAccount : boolean) {
-
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus = true;
@@ -125,40 +96,11 @@ export class CalculatorComponent implements OnInit {
     })
   }
 
-
-//   this.api.getSelfBucketList({},{
-//     "email": this.email.value,
-//     "bucketList": this.bucketList.value,
-//     "bmi": this.result,
-//     "status": this.resultLabel
-//   }).subscribe((res : any)=>{
-//   alert("Record added")
-// })
-
   reset(){
     this.calculate=false;
     this.bucketList.reset();
     this.email.reset();
     this.tab = false;
   }
-
-  //
-  //
-  // saveRecord(){
-  //   if(this.isLoggedIn){
-  //     if(confirm("Are you sure to add this record ?")) {
-  //       this.api.saveRecord({
-  //         "email": this.email.value,
-  //         "bucketList": this.bucketList.value,
-  //         "bmi": this.result,
-  //         "status": this.resultLabel
-  //       }).subscribe((res : any)=>{
-  //         alert("Record added")
-  //       })
-  //     }
-  //   }else {
-  //     alert("Please log in to save your record.")
-  //   }
-  // }
 
 }

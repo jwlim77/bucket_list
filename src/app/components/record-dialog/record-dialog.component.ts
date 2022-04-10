@@ -15,12 +15,10 @@ interface Item {
 
 export class RecordDialogComponent implements OnInit {
 
-
   itemArray : Item[] = [];
   dataSource = this.itemArray;
   email = '';
   newAccount = this.data.newAccount;
-
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data : any,
@@ -29,7 +27,6 @@ export class RecordDialogComponent implements OnInit {
 
   ngOnInit(): void {
   //  preprocess array
-
     const itemArray : Item[] = [];
     for(let element of this.data){
       itemArray.push({items : element.items});
@@ -45,8 +42,6 @@ export class RecordDialogComponent implements OnInit {
     Validators.minLength(1),
     Validators.maxLength(1000),
   ]);
-
-
 
   onAdd(){
     if(this.bucketList.valid){
@@ -66,9 +61,6 @@ export class RecordDialogComponent implements OnInit {
   }
 
   onUpdate(){
-
-    console.log(this.email)
-
     if (!this.newAccount && this.email.length > 0) {
       let respond = confirm("Confirm update bucket list ?")
       //update
@@ -90,6 +82,7 @@ export class RecordDialogComponent implements OnInit {
         })
       }
     }else if(this.newAccount && this.email.length>0) {
+      //create new
       let respond = confirm("Confirm create bucket list ?")
       if(respond){
         this.api.createSelfBucketList(this.email , this.itemArray).subscribe((res : any)=>{

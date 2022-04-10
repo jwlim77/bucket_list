@@ -1,8 +1,5 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {JWTTokenService} from "./jwtToken.service";
-import {SocialAuthService} from "angularx-social-login";
-import {LocalStorageService} from "./localStorage.service";
 
 @Injectable({
   providedIn: 'root'
