@@ -3,7 +3,7 @@ import {MAT_DIALOG_DATA} from "@angular/material/dialog";
 import {ApiService} from "../../services/apiService.service";
 import {FormControl, Validators} from "@angular/forms";
 
-interface Student {
+interface Item {
   items : string;
 }
 
@@ -16,9 +16,10 @@ interface Student {
 export class RecordDialogComponent implements OnInit {
 
 
-  itemArray : Student[] = [];
-  displayedColumns: string[] = ['items','button'];
+  itemArray : Item[] = [];
   dataSource = this.itemArray;
+  email = '';
+  newAccount = this.data.newAccount;
 
 
   constructor(
@@ -29,45 +30,89 @@ export class RecordDialogComponent implements OnInit {
   ngOnInit(): void {
   //  preprocess array
 
-    const itemArray : Student[] = [];
+    const itemArray : Item[] = [];
     for(let element of this.data){
       itemArray.push({items : element.items});
     }
 
     this.itemArray = itemArray;
     this.dataSource = itemArray;
-
+    this.email = this.data.email;
   }
 
   bucketList = new FormControl('' , [
     Validators.required,
     Validators.minLength(1),
     Validators.maxLength(1000),
-    // Validators.pattern("^[0-9]+$")
   ]);
 
-  deleteRecord(id: string){
-    if(confirm("Are you sure to delete this record ?")) {
-      this.api.deleteRecord(id).subscribe((res:any)=>{
-        this.dataSource = this.data.filter((data : any) => data.id != id)
-        alert("Record deleted")
-      })
-    }
-  }
 
 
-  onSubmit(){
+  onAdd(){
     if(this.bucketList.valid){
-      alert(" Item : " + this.bucketList.value)
-
       this.itemArray.push({items: this.bucketList.value})
-      console.log(this.itemArray)
       this.dataSource= this.itemArray
 
     }else {
       alert("Please fill in the values !")
     }
+    this.bucketList.reset()
   }
 
+  onDelete(item : string){
+    alert("deleting : "+item)
+    this.itemArray = this.itemArray.filter(Item=>Item.items !=item );
+    console.log(this.itemArray)
+  }
 
+  onUpdate(){
+
+    console.log(this.email)
+
+    if (!this.newAccount && this.email.length > 0) {
+      let respond = confirm("Confirm update bucket list ?")
+      //update
+      if(respond){
+        this.api.updateSelfBucketList(this.email , this.itemArray).subscribe((res : any)=>{
+          if(res.length > 0){
+            console.log(res)
+          }
+        })
+      }
+    } else if(!this.newAccount && this.email.length == 0) {
+    //  delete
+      let respond = confirm("Confirm delete bucket list ?")
+      if(respond){
+        this.api.deleteSelfBucketList(this.email).subscribe((res : any)=>{
+          if(res.length > 0){
+            console.log(res)
+          }
+        })
+      }
+    }else if(this.newAccount && this.email.length>0) {
+      let respond = confirm("Confirm create bucket list ?")
+      if(respond){
+        this.api.createSelfBucketList(this.email , this.itemArray).subscribe((res : any)=>{
+          if(res.length > 0){
+            console.log(res)
+          }
+        })
+      }
+    }else {
+      alert("Error updating bucket list. Please try again.")
+    }
+  }
+
+  onDeleteSelfBucketList(){
+    let respond = confirm("Confirm delete bucket list ?")
+    if(respond && !this.newAccount){
+      this.api.deleteSelfBucketList(this.email).subscribe((res : any)=>{
+        if(res.length > 0){
+          console.log(res)
+        }
+      })
+      return true ;
+    }
+    return false ;
+  }
 }

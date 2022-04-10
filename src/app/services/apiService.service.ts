@@ -106,11 +106,16 @@ export class ApiService {
 
   updateSelfBucketList(email : string , body:any): any {
     const url = this.baseUrl+'bucket-lists/'+email;
-    return this.http.put(url , body)
+    return this.http.put(url , {bucketItems: body})
   }
 
   deleteSelfBucketList(email : string): any {
     const url = this.baseUrl+'bucket-lists/'+email;
     return this.http.delete(url)
+  }
+
+  createSelfBucketList(email : string , body:any): any {
+    const url = this.baseUrl+'bucket-lists/';
+    return this.http.post(url , { email : email, bucketItems: body})
   }
 }

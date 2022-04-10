@@ -18,13 +18,7 @@ export class CalculatorComponent implements OnInit {
   result : string = '';
   resultLabel : string ='';
   resultColor : string ='';
-  datas = [ {
-    "id" : 0,
-    "email": "",
-    "bucketItems": [{
-      "items": ""
-    }]
-  }]
+
 
   // selfData = [
   //       {
@@ -47,9 +41,16 @@ export class CalculatorComponent implements OnInit {
     Validators.required,
     Validators.minLength(1),
     Validators.maxLength(1000),
-    // Validators.pattern("^[0-9]+$")
+    Validators.email
   ]);
 
+  datas = [ {
+    "id" : 0,
+    "email": "",
+    "bucketItems": [{
+      "items": ""
+    }]
+  }]
 
   constructor(private api : ApiService , private localStorage : LocalStorageService , public dialog: MatDialog,) { }
 
@@ -79,12 +80,12 @@ export class CalculatorComponent implements OnInit {
   checkRecordButton(){
     //calculate bmi
     if(this.email.valid){
-      this.api.getSelfBucketList(this.email.value).subscribe((res : any)=>{
+      let respond = this.api.getSelfBucketList(this.email.value).subscribe((res : any)=>{
         if(res.length>0){
           // this.selfData= res[0].bucketItems;
-          this.openDialog(res[0].bucketItems)
+          this.openDialog(res[0].bucketItems , false)
         }else{
-          this.openDialog(res[0])
+          this.openDialog(res , true)
         }
       })
 
@@ -98,12 +99,14 @@ export class CalculatorComponent implements OnInit {
   }
 
 
-  private openDialog(records : string) {
+  private openDialog(records : string , newAccount : boolean) {
 
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus = true;
     dialogConfig.data = records;
+    dialogConfig.data.email = this.email.value? this.email.value:"";
+    dialogConfig.data.newAccount = newAccount;
 
     let dialogRef = this.dialog.open(RecordDialogComponent, dialogConfig);
 
