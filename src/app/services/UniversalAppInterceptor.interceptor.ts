@@ -4,7 +4,6 @@ import { JWTTokenService } from './jwtToken.service';
 import { LocalStorageService } from './localStorage.service';
 import { catchError } from 'rxjs/operators';
 import {throwError} from "rxjs";
-import {LoginComponent} from "../components/login/login.component";
 import {ApiService} from "./apiService.service";
 
 @Injectable()
@@ -29,7 +28,6 @@ export class UniversalAppInterceptor implements HttpInterceptor {
         console.log(error.status)
         if (error.status == 401){
           console.log("Token expired")
-          this.api.forceLogOut()
         }
         alert(error.status + "  " + error.error.detail)
         return throwError(error.message);

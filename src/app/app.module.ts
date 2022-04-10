@@ -8,14 +8,11 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
 import { CalculatorComponent } from './components/calculator/calculator.component';
-import { CalculatorDescriptionComponent } from './components/calculator-description/calculator-description.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FooterComponent } from './components/footer/footer.component';
 import { SbuttonComponent } from './components/sbutton/sbutton.component';
-import { LoginComponent } from './components/login/login.component';
 import {GoogleLoginProvider, SocialLoginModule} from "angularx-social-login";
 import {UniversalAppInterceptor} from "./services/UniversalAppInterceptor.interceptor";
-import { RecordComponent } from './components/record/record.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import { RecordDialogComponent } from './components/record-dialog/record-dialog.component';
 import {MatTableModule} from "@angular/material/table";
@@ -30,11 +27,8 @@ import {MatTooltipModule} from "@angular/material/tooltip";
     AppComponent,
     HeaderComponent,
     CalculatorComponent,
-    CalculatorDescriptionComponent,
     FooterComponent,
     SbuttonComponent,
-    LoginComponent,
-    RecordComponent,
     RecordDialogComponent,
   ],
     imports: [
